@@ -6,6 +6,8 @@ import MovieCard from './components/MovieCard'
 import { Route, Routes } from 'react-router-dom'
 import MovieDetail from './components/MovieDetail'
 import styled from 'styled-components'
+import DetailPage from './pages/DetailPage'
+import MainPage from './pages/MainPage'
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -18,8 +20,6 @@ function App() {
   
   
   console.log(movies.results)
-  // const movie = movies.results
-  // console.log(movie)
   const movie = movies.results ? movies.results : [];
   console.log(movie);
   const id = movie.map((movie) => movie.id)
@@ -28,20 +28,11 @@ function App() {
   console.log(title)
   return (
     <CardPoster>
-      <Routes>
-        <Route path='/' element={<UL className='grid grid-cols-5 gap-8'>{
-          movie.map((movie) => (
-          <MovieCard 
-          id= {movie.id}
-          title= {movie.title}
-          vote_average = {movie.vote_average}
-          poster={ movie.poster_path}
-          />  
-        ))
-        }</UL>}/>
-        <Route path='/details' element={<MovieDetail details={details}/>}/>
-      </Routes>
-    </CardPoster>
+    <Routes>
+      <Route path='/' element={<MainPage movie={movie} />}/>
+      <Route path='/details' element={<DetailPage/>}/>
+    </Routes>
+  </CardPoster>
   )
 }
 
