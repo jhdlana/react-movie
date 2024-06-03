@@ -25,13 +25,16 @@ const MovieDetail = ({details}) => {
     
 
   return (
-    <Poster>
+    <Poster className='MovieDetail'>
         <div>
             <img src={`${base_url}${poster}`} />
         </div>
         <div>
-            <h2>{title}</h2>
-            <span>{vote_average}</span>
+            <Head>
+                <h2>{title}</h2>
+                <span>{vote_average}</span>
+            </Head>
+            
             <p>{genre}</p>
             <p>{overview}</p>
         </div>
@@ -44,7 +47,15 @@ export default MovieDetail
 
 const Poster = styled.div `
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
 `
+
+const Head = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+`
+

@@ -5,6 +5,7 @@ import movieDetailData from './movieDetailData.json'
 import MovieCard from './components/MovieCard'
 import { Route, Routes } from 'react-router-dom'
 import MovieDetail from './components/MovieDetail'
+import styled from 'styled-components'
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -26,9 +27,9 @@ function App() {
   const title = movie.map((movie) => movie.title)
   console.log(title)
   return (
-    <div>
+    <CardPoster>
       <Routes>
-        <Route path='/' element={<ul className='grid grid-cols-5 gap-8'>{
+        <Route path='/' element={<UL className='grid grid-cols-5 gap-8'>{
           movie.map((movie) => (
           <MovieCard 
           id= {movie.id}
@@ -37,11 +38,21 @@ function App() {
           poster={ movie.poster_path}
           />  
         ))
-        }</ul>}/>
+        }</UL>}/>
         <Route path='/details' element={<MovieDetail details={details}/>}/>
       </Routes>
-    </div>
+    </CardPoster>
   )
 }
 
 export default App
+
+const CardPoster = styled.div `
+    width: 100%;
+`
+
+const UL = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr)); /* 5개의 열을 갖는 그리드 */
+  gap: 8px;
+`
