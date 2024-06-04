@@ -3,11 +3,24 @@ import './App.css'
 import movieListData from './movieListData.json'
 import movieDetailData from './movieDetailData.json'
 import MovieCard from './components/MovieCard'
-import { Route, Routes } from 'react-router-dom'
+import { Outlet, Route, Routes } from 'react-router-dom'
 import MovieDetail from './components/MovieDetail'
 import styled from 'styled-components'
 import DetailPage from './pages/DetailPage'
 import MainPage from './pages/MainPage'
+import Nav from './components/Nav'
+import SignUpPage from './pages/SignUpPage'
+import LoginPage from './pages/LoginPage'
+
+const Layout = () => {
+  return (
+    <>
+      <Nav />
+
+      <Outlet />
+    </>
+  )
+}
 
 function App() {
   const [movies, setMovies] = useState([])
@@ -26,11 +39,16 @@ function App() {
   console.log(id)
   const title = movie.map((movie) => movie.title)
   console.log(title)
+
   return (
     <CardPoster>
     <Routes>
-      <Route path='/' element={<MainPage movie={movie} />}/>
-      <Route path='/details' element={<DetailPage/>}/>
+      <Route path='/' element={<Layout/>}>
+        <Route index element={<MainPage movie={movie} />}/>
+        <Route path=':movieId' element={<DetailPage/>}/>
+        <Route path='login' element={<LoginPage/>}/>
+        <Route path='signup' element={<SignUpPage/>}/>
+      </Route>
     </Routes>
   </CardPoster>
   )

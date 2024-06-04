@@ -1,45 +1,76 @@
-import MovieDetailJson from '../movieDetailData.json';
+import axios from '../api/axios';
 import React, { useEffect, useState } from 'react'
+import { generatePath, useParams } from 'react-router-dom';
 import styled from "styled-components"
 
-const MovieDetail = ({details}) => {
-    const [movieDetail, setMovieDetail] = useState({})
+const MovieDetail = () => {
 
-    const detail = MovieDetailJson
+    const {movieId} = useParams()
+    console.log(useParams())
+    console.log(movieId)
+
+    const [movieDetail, setMovieDetail] = useState(null)
 
     const base_url = "https://image.tmdb.org/t/p/w200"
 
-    // useEffect(() => {
-    //     setMovieDetail(details) // setter함수가 꼐속 실행되면서 빈배열로 초기화돼서
-    // }, [])
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get(`/movie/${movieId}`);
+                console.log(response.data); // API 응답 데이터 확인
+                setMovieDetail(response.data);
+            } catch (error) {
+                console.error("Failed to fetch movie details:", error);
+            }
+        }
+        fetchData();
+    }, [movieId]);
+
+    if (!movieDetail) {
+        return <div>Loading...</div>;
+    }
 
 
-    // const detail = movieDetail ? movieDetail : [];
-    console.log(detail)
+    // const detail = MovieDetailJson
 
-    const poster = detail.poster_path
-    const title = detail.title
-    const vote_average = detail.vote_average
-    const genre = detail.genres.map((genre) => genre.name)
-    const overview = detail.overview
+    // const base_url = "https://image.tmdb.org/t/p/w200"
+
+    // // useEffect(() => {
+    // //     setMovieDetail(details) // setter함수가 꼐속 실행되면서 빈배열로 초기화돼서
+    // // }, [])
+
+
+    // // const detail = movieDetail ? movieDetail : [];
+    // console.log(detail)
+
+    // const poster = detail.poster_path
+    // const title = detail.title
+    // const vote_average = detail.vote_average
+    // const genre = detail.genres.map((genre) => genre.name)
+    // const overview = detail.overview
     
 
   return (
     <Poster className='MovieDetail'>
-        <div>
-            <img src={`${base_url}${poster}`} />
-        </div>
-        <div>
-            <Head>
-                <h2>{title}</h2>
-                <span>{vote_average}</span>
-            </Head>
-            
-            <p>{genre}</p>
-            <p>{overview}</p>
-        </div>
+    <div>
+        <img src={`${base_url}${movieDetail.poster_path}`} />
+    </div>
+    <div>
+        <Head>
+            <h2>{movieDetail.title}</h2>
+            <span>{movieDetail.vote_average}</span>
+        </Head>
         
-    </Poster>
+        <p>
+            {movieDetail.genres.map((genre)=> (
+                <span className="genre-name" key={genre.id}> {genre.name} </span>
+                )    
+            )}
+        </p>
+        <p>{movieDetail.overview}</p>
+    </div>
+    
+</Poster>
   )
 }
 
