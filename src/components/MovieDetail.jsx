@@ -1,23 +1,18 @@
 import axios from '../api/axios';
-import React, { useEffect, useState } from 'react'
-import { generatePath, useParams } from 'react-router-dom';
-import styled from "styled-components"
+import React, { useEffect, useState } from 'react';
+import { generatePath, useLocation, useParams } from 'react-router-dom';
+import styled from "styled-components";
 
 const MovieDetail = () => {
+    const { movieId } = useParams();
+    const [movieDetail, setMovieDetail] = useState(null);
 
-    const {movieId} = useParams()
-    console.log(useParams())
-    console.log(movieId)
-
-    const [movieDetail, setMovieDetail] = useState(null)
-
-    const base_url = "https://image.tmdb.org/t/p/w200"
+    const base_url = "https://image.tmdb.org/t/p/w200";
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await axios.get(`/movie/${movieId}`);
-                console.log(response.data); // API 응답 데이터 확인
                 setMovieDetail(response.data);
             } catch (error) {
                 console.error("Failed to fetch movie details:", error);
@@ -30,63 +25,110 @@ const MovieDetail = () => {
         return <div>Loading...</div>;
     }
 
-
-    // const detail = MovieDetailJson
-
-    // const base_url = "https://image.tmdb.org/t/p/w200"
-
-    // // useEffect(() => {
-    // //     setMovieDetail(details) // setter함수가 꼐속 실행되면서 빈배열로 초기화돼서
-    // // }, [])
-
-
-    // // const detail = movieDetail ? movieDetail : [];
-    // console.log(detail)
-
-    // const poster = detail.poster_path
-    // const title = detail.title
-    // const vote_average = detail.vote_average
-    // const genre = detail.genres.map((genre) => genre.name)
-    // const overview = detail.overview
-    
-
-  return (
-    <Poster className='MovieDetail'>
-    <div>
-        <img src={`${base_url}${movieDetail.poster_path}`} />
-    </div>
-    <div>
-        <Head>
-            <h2>{movieDetail.title}</h2>
-            <span>{movieDetail.vote_average}</span>
-        </Head>
-        
-        <p>
-            {movieDetail.genres.map((genre)=> (
-                <span className="genre-name" key={genre.id}> {genre.name} </span>
-                )    
-            )}
-        </p>
-        <p>{movieDetail.overview}</p>
-    </div>
-    
-</Poster>
-  )
+    return (
+        <Poster className='MovieDetail'>
+            <Div>
+            <ImgWrapper>
+                <Img src={`${base_url}${movieDetail.poster_path}`} alt={`${movieDetail.title} Poster`} />
+            </ImgWrapper>
+            </Div>
+            <Div>
+            <DetailsWrapper>
+                <Head>
+                    <h2>{movieDetail.title}</h2>
+                    <Rating>{movieDetail.vote_average}</Rating>
+                </Head>
+                <Genres>
+                    {movieDetail.genres.map((genre) => (
+                        <span className="genre-name" key={genre.id}>{genre.name}</span>
+                    ))}
+                </Genres>
+                <Overview>{movieDetail.overview}</Overview>
+            </DetailsWrapper>
+            </Div>
+        </Poster>
+    );
 }
 
-export default MovieDetail
+export default MovieDetail;
 
-const Poster = styled.div `
+const Poster = styled.div`
+    margin-top: 150px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0 20px;
+    height: 700px;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
+`;
+const Div = styled.div `
+
 `
+const ImgWrapper = styled.div`
+    flex: 1;
+    img {
+        width: 700px;
+        max-width: 200px;
+        border-radius: 8px;
+    }
+
+    @media (max-width: 768px) {
+        max-width: 150px;
+    }
+`;
+const Img = styled.img `
+    width: 1000px;
+`
+const DetailsWrapper = styled.div`
+    flex: 2;
+    max-width: 600px;
+`;
 
 const Head = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-`
+    margin-bottom: 16px;
 
+    h2 {
+        margin: 0;
+        font-size: 1.5em;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+
+        h2 {
+            margin-bottom: 8px;
+        }
+    }
+`;
+
+const Rating = styled.span`
+    background-color: #ffd700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+`;
+
+const Genres = styled.div`
+    margin-bottom: 16px;
+
+    .genre-name {
+        background-color: #eee;
+        border-radius: 4px;
+        padding: 4px 8px;
+        margin-right: 8px;
+    }
+`;
+
+const Overview = styled.p`
+    line-height: 1.6;
+`;

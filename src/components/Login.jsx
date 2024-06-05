@@ -23,6 +23,7 @@ const Div = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 700px;
+    height: 865px;
+    margin-top: 70px;
 
 `

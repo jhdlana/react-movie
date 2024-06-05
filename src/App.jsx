@@ -11,6 +11,7 @@ import MainPage from './pages/MainPage'
 import Nav from './components/Nav'
 import SignUpPage from './pages/SignUpPage'
 import LoginPage from './pages/LoginPage'
+import SearchPage from './pages/SearchPage'
 
 const Layout = () => {
   return (
@@ -35,10 +36,10 @@ function App() {
   console.log(movies.results)
   const movie = movies.results ? movies.results : [];
   console.log(movie);
-  const id = movie.map((movie) => movie.id)
-  console.log(id)
-  const title = movie.map((movie) => movie.title)
-  console.log(title)
+  // const id = movie.map((movie) => movie.id)
+  // console.log(id)
+  // const title = movie.map((movie) => movie.title)
+  // console.log(title)
 
   return (
     <CardPoster>
@@ -48,6 +49,7 @@ function App() {
         <Route path=':movieId' element={<DetailPage/>}/>
         <Route path='login' element={<LoginPage/>}/>
         <Route path='signup' element={<SignUpPage/>}/>
+        <Route path='search' element={<SearchPage/>}/>
       </Route>
     </Routes>
   </CardPoster>

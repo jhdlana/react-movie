@@ -6,23 +6,24 @@ const Signup = () => {
     <Div>
         <h2>회원가입</h2>
         <P>
-        이름 : 
+        <Span>이름 :  </Span>
         </P>
         <Input type='text' placeholder='이름'/>
+       
         <P>
-        이메일 : 
+        <span>이메일 : </span>
         </P>
         <Input type='email' placeholder='이메일'/>
         <P>
-        아이디 :
+        <span>아이디 : </span>
         </P>
         <Input type='text' placeholder='아이디'/>
         <P>
-        비밀번호 : 
+        <span>비밀번호 : </span> 
         </P>
         <Input type='password' placeholder='비밀번호'/>
         <P>
-        비밀번호 확인 : 
+        <span>비밀번호 확인 : </span> 
         </P>
         <Input type='password' placeholder='비밀번호 확인'/>
 
@@ -54,25 +55,30 @@ const Div = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 700px;
+    height: 865px;
+    margin-top: 70px;
 
 `
 
 const P = styled.p`
     font-size: 18px;
-    // display: flex;
+    display: flex;
     margin: 0px;
     margin-top: 18px;
     text-align: left;
-
+    width: 100%;
+    justify-content: space-evenly;
+`
+const Span = styled.span`
+    text-align:left;
 `
 const Input = styled.input`
-    height: 18px;
-    width: 180px;
+    // height: 18px;
+    width: 250px;
 `
 
 const Button = styled.button`
-    height: 30px;
-    width: 70px;
+    height: 40px;
+    width: 180px;
     margin: 18px;
 `

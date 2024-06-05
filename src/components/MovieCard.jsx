@@ -1,93 +1,101 @@
-import axios from '../api/axios'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import requests from '../api/requests'
+import axios from '../api/axios';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import requests from '../api/requests';
 
+const MovieCard = () => {
+    const [movies, setMovies] = useState([]);
+    const [error, setError] = useState(null);
 
-const MovieCard = ({movie}) => {
-    // const base_url = "https://image.tmdb.org/t/p/w200"
-    // const src = `${base_url}${movie.poster_path}`
-    // console.log(src)
+    const fetchUrl = requests.fetchPopular;
 
-    // console.log(movie)
-    // console.log( movie.map((movie)=> movie.title))
-
-    const [movies, setMovies] = useState([])
-    const [error, setError] = useState(null)
-
-    const fetchUrl = requests.fetchPopular
-
-    const fetchMovieData = useCallback(async () => { //컴포넌트가 렌더링될 때마다 새로운 함수가 생성되는 것을 방지
+    const fetchMovieData = useCallback(async () => {
         try {
-            const response = await axios.get(fetchUrl)
-            setMovies(response.data.results)
-            console.log(response)
-            console.log(response.data.results)
+            const response = await axios.get(fetchUrl);
+            setMovies(response.data.results);
+            console.log(response);
+            console.log(response.data.results);
         } catch (e) {
-            setError(e)
+            setError(e);
         }
-    }, [fetchUrl])
-
-    const id = (movies.map(movie => (
-        console.log(movie.id)
-    )
-    ))
+    }, [fetchUrl]);
 
     useEffect(() => {
-      fetchMovieData()
-    }, [fetchMovieData])
-    
+        fetchMovieData();
+    }, [fetchMovieData]);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const handleDetail = (movieId) => {
-        navigate(`${movieId}`)
+        navigate(`${movieId}`);
     }
 
-  return (
-    //    <UL className='grid grid-cols-5 gap-8'>{
-    //             movie.map((movie) => (
-    //                 <CardPoster onClick={handleDetail} >
-    //                 <div>
-    //                     <img src={`${base_url}${movie.poster_path}`} alt={`${movie.title} Poster`}/>
-    //                 </div>
-    //                 <div>
-    //                     <h3>{movie.title}</h3>
-            
-    //                     <p>평점: {movie.vote_average}</p>     
-    //                 </div>
-    //             </CardPoster>
-    //         ))
-    //     }</UL> 
-    <UL className='grid grid-cols-5 gap-8'>{
-        movies.map((movie) => (
-            <CardPoster  key={movie.id}>
-                    {/* <div onClick={() => navigate(`/${movie.id}`)}> */}
+    return (
+        <UL>{
+            movies.map((movie) => (
+                <CardPoster key={movie.id}>
                     <div onClick={() => handleDetail(movie.id)}>
-                    <div>
-                        <img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} alt={`${movie.title} Poster`}/>
+                        <div>
+                            <img src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`} alt={`${movie.title} Poster`} />
+                        </div>
+                        <div>
+                            <h3>{movie.title}</h3>
+                            <p>평점: {movie.vote_average}</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3>{movie.title}</h3>
-            
-                        <p>평점: {movie.vote_average}</p>     
-                    </div>
-                </div>
-           
-        </CardPoster>
-    ))
-}</UL> 
-
+                </CardPoster>
+            ))
+        }</UL>
     )
 }
 
 export default MovieCard
 
-const CardPoster = styled.div `
+const CardPoster = styled.div`
     width: 100%;
-`
+    cursor: pointer;
+
+    img {
+        width: 100%;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    img:hover {
+        transform: scale(1.05);
+    }
+
+    h3 {
+        font-size: 1rem;
+        margin-top: 8px;
+    }
+
+    p {
+        font-size: 0.9rem;
+        color: gray;
+    }
+`;
+
 const UL = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr)); /* 5개의 열을 갖는 그리드 */
-  gap: 8px;
-`
+    margin-top: 90px;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+    padding: 0 16px;
+
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr)); // minmax(0, 1fr) 행,열의 간격 최소 0, 최대는 가용공간의 1 (가용공간 균등하게 나누기)
+    }
+
+    @media (max-width: 992px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 576px) {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+`;
