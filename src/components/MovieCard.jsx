@@ -1,12 +1,19 @@
 import axios from '../api/axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import requests from '../api/requests';
+import AuthContext from '../AuthContext';
 
 const MovieCard = () => {
     const [movies, setMovies] = useState([]);
     const [error, setError] = useState(null);
+
+    const {isLoggedIn,setIsLoggedIn} = useContext(AuthContext)
+
+    useEffect(() => {
+        setIsLoggedIn(true)
+    }, [])
 
     const fetchUrl = requests.fetchPopular;
 

@@ -13,12 +13,13 @@ const MovieSearch = () => {
     const [searchResults, setSearchResults] = useState([])
 
     const useQuery = () => {
-        return new URLSearchParams(location.search)
+        // url의 search부분의 쿼리 스트링 가져오기
+        return new URLSearchParams(location.search) // 'search'?q=spiderman -> ?q=spiderman 
     }
 
     const query = useQuery()
 
-    // debounceSearchTerm : 지연된 사용자의 입력 값
+    // debounceSearchTerm : 지연된 사용자의 입력 값  (즉시 업데이트 방지)     // 쿼리 스트링의 key값이 "영화제목"인 값을 가져오고, delay시간은 0.5초
     const debounceSearchTerm = useDebounce(query.get('영화제목'), 500) // get : query에 대한 영화제목(key)의 값(value)를 가져오기
     console.log('MovieSearch : ' + debounceSearchTerm)
 
@@ -48,7 +49,7 @@ const MovieSearch = () => {
                         return (
                             <div className="movie" key={movie.id}>
                                 <div
-                                    onClick={() => navigate(`/${movie.id}`)}
+                                    onClick={() => navigate(`/main/${movie.id}`)}
                                     className='movie__column-poster'
                                 >
                                     <img

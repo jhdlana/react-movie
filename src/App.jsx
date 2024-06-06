@@ -12,6 +12,8 @@ import Nav from './components/Nav'
 import SignUpPage from './pages/SignUpPage'
 import LoginPage from './pages/LoginPage'
 import SearchPage from './pages/SearchPage'
+import { AuthProvider } from './AuthContext'
+import MyPage from './pages/MyPage'
 
 const Layout = () => {
   return (
@@ -42,17 +44,20 @@ function App() {
   // console.log(title)
 
   return (
+    <AuthProvider>
     <CardPoster>
     <Routes>
       <Route path='/' element={<Layout/>}>
-        <Route index element={<MainPage movie={movie} />}/>
-        <Route path=':movieId' element={<DetailPage/>}/>
-        <Route path='login' element={<LoginPage/>}/>
+        <Route index element={<LoginPage/>}/>
+        <Route path='main' element={<MainPage movie={movie} />}/>
+        <Route path='main/:movieId' element={<DetailPage/>}/>
         <Route path='signup' element={<SignUpPage/>}/>
         <Route path='search' element={<SearchPage/>}/>
+        <Route path='mypage' element={<MyPage/>}/>
       </Route>
     </Routes>
   </CardPoster>
+  </AuthProvider>
   )
 }
 

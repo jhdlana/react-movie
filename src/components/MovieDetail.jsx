@@ -3,9 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { generatePath, useLocation, useParams } from 'react-router-dom';
 import styled from "styled-components";
 
+
 const MovieDetail = () => {
     const { movieId } = useParams();
     const [movieDetail, setMovieDetail] = useState(null);
+
+
+
 
     const base_url = "https://image.tmdb.org/t/p/w200";
 
@@ -14,10 +18,12 @@ const MovieDetail = () => {
             try {
                 const response = await axios.get(`/movie/${movieId}`);
                 setMovieDetail(response.data);
+                console.log(response)
             } catch (error) {
                 console.error("Failed to fetch movie details:", error);
             }
         }
+        console.log('movieDetail~~~~~~')
         fetchData();
     }, [movieId]);
 
@@ -73,16 +79,16 @@ const ImgWrapper = styled.div`
     flex: 1;
     img {
         width: 700px;
-        max-width: 200px;
+        max-width: 300px;
         border-radius: 8px;
     }
 
     @media (max-width: 768px) {
-        max-width: 150px;
+        max-width: 300px;
     }
 `;
 const Img = styled.img `
-    width: 1000px;
+    
 `
 const DetailsWrapper = styled.div`
     flex: 2;
