@@ -11,9 +11,17 @@ const MovieCard = () => {
 
     const {isLoggedIn,setIsLoggedIn} = useContext(AuthContext)
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         setIsLoggedIn(true)
     }, [])
+
+    useEffect(() => {
+        if(isLoggedIn === false){
+            navigate('/')
+        }
+    }, [isLoggedIn, navigate])
 
     const fetchUrl = requests.fetchPopular;
 
@@ -32,7 +40,7 @@ const MovieCard = () => {
         fetchMovieData();
     }, [fetchMovieData]);
 
-    const navigate = useNavigate();
+
     const handleDetail = (movieId) => {
         navigate(`${movieId}`);
     }

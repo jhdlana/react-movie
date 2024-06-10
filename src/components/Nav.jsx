@@ -21,46 +21,10 @@ const Nav = () => {
     
     const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext)
 
+    const auth = getAuth(app)
+
     const [userData, setUserData] = useState(initialUserData)
 
-    const {pathname} = useLocation()
-
-    const auth = getAuth(app)
-    const provider = new GoogleAuthProvider()
-
-    useEffect(() => {
-        onAuthStateChanged(auth, (user)=> {
-          // if(user) {
-          //     // 로그인 되어있으면 무조건 main으로 => search 페이지를 찾고싶어도 main으로 경로를 이동하게 됨
-          //     navigate('/main')
-          //     //const uid = user.uid
-          // } else {
-          //     // 로그인 안되어있으면
-          //     navigate('/')
-          // }
-  
-  
-          if(!user) { // 로그인이 안되어있다면 // 로그인 페이지 or 회원가입 페이지
-              navigate('/')
-               setIsLoggedIn(false)
-            //    navigate('/signup') 
-              
-          } else if (user && pathname === '/') { // 로그인이 되어있고 현재 경로가 '/'(로그인페이지)이라면 -> 사용자가 로그인한 상태에서 다른 페이지를 방문하려고 하면, 해당 페이지로 이동할수있음
-            setIsLoggedIn(true)  
-            navigate('/main')
-          }   
-          
-        //   if(user  && pathname === '/') {
-        //     setIsLoggedIn(true)  
-        //     navigate('/main')
-        //   } 
-        //     //     navigate('/') 
-        //     //    navigate('/signup') 
-          
-
-        })
-      
-      }, [auth, navigate, pathname, setIsLoggedIn])
 
     useEffect(() => {
         setShowInput(false);
@@ -114,21 +78,6 @@ const Nav = () => {
         navigate('/mypage')
     }
 
-    const handleGoogle = () => {
-        signInWithPopup(auth, provider) // 팝업이 뜨게 됨
-
-        // 로그인을 잘 하게 됐으면
-        .then ((result) => {
-            console.log(result)
-            console.log('result.user', result.user)
-            setUserData(result.user)
-            localStorage.setItem('userData', JSON.stringify(result.user))
-            setIsLoggedIn(true)
-        })
-        .catch((error) => {
-            alert(error.message)
-        })
-    }
 
     return (
         <Div>
@@ -186,7 +135,7 @@ const Nav = () => {
                 
                             :(
                     <>
-                    <Login onClick={handleGoogle}>Google Login</Login>
+                    {/* <Login onClick={handleGoogle}>Google Login</Login> */}
                     <Login onClick={handleLogin}>Login</Login>
                     <Login onClick={handleSignUp}>Sign Up</Login>
                     </>
