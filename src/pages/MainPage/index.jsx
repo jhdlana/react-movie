@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import MovieCard from '../../components/MovieCard'
+import { useNavigate } from 'react-router-dom'
+import AuthContext from '../../AuthContext'
 
 const MainPage = ({movie}) => {
+
+  const {isLoggedIn,setIsLoggedIn} = useContext(AuthContext)
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(isLoggedIn === false){
+        navigate('/')
+    }
+}, [isLoggedIn, navigate])
 
     console.log(movie)
   return (

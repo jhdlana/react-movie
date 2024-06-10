@@ -5,7 +5,7 @@ import { getAuth } from 'firebase/auth';
 
 const MyPage = () => {
 
-    const {currentUser} = getAuth()
+  const {currentUser} = getAuth()
   const [email, setEmail] = useState('');
 
   useEffect(() => {
@@ -23,10 +23,10 @@ const MyPage = () => {
           <Label>Email:</Label>
           <Value>{email}</Value>
         </InfoItem>
-        <InfoItem>
+        {/* <InfoItem>
           <Label>Email:</Label>
           <Value>john@example.com</Value>
-        </InfoItem>
+        </InfoItem> */}
       </UserInfo>
       <UserActions>
         <Button>Edit Profile</Button>

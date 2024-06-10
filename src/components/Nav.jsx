@@ -60,6 +60,7 @@ const Nav = () => {
             setUserData({})
             localStorage.removeItem('userData')
             setIsLoggedIn(false) // 로그인 (구글, 이메일) 둘다 auth(= getAuth(app))으로 사용하므로 로그아웃기능도 둘다 가능! => 로그인 상태 false로 둘다 설정 가능!! & 완전히 로그아웃 후에 상태 변화 및 페이지 이동시키기!
+            setShowInput(false)
             navigate('/')
         }).catch((error) => {
             alert(error.message)
@@ -209,8 +210,13 @@ const Div2 = styled.div`
     align-items: center;
     gap: 10px; 
     @media (max-width: 768px) {
+        // a {
+        //     display: none; /* 화면이 작을 때 Login 링크를 숨김 */
+        // }   
         a {
-            display: none; /* 화면이 작을 때 Login 링크를 숨김 */
+            width:90px;
+            text-align: center;
+            font-size: 10px;
         }   
     }
 `;
@@ -226,13 +232,16 @@ const Logo = styled.a`
         width: 100%;
         border-radius: 50%;
     }
-    margin-bottom: 0px;
+  
 `;
 
 const Img = styled.img`
     border-radius: 50%;
     width: 100%;
     height: 100%;
+    @media (max-width: 768px) {
+        padding-top : 10px;
+    }
 `;
 
 const Login = styled.a`
@@ -264,4 +273,8 @@ const Input = styled.input`
     padding: 5px;
     border: 1px solid lightgray;
     z-index : 1001;
+    @media (max-width: 768px) {
+        left: 42%;
+        width : 180px;
+    }
 `;

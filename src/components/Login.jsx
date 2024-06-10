@@ -24,14 +24,9 @@ const Login = () => {
         setIsLoggedIn(false);
         navigate('/');
         console.log(user)
-      } else if (user && pathname === '/') {
-        setIsLoggedIn(true);
-        navigate('/main');
-        console.log(user)
-      }
+      } 
+     
     });
-
-    
   }, [auth, navigate, pathname, setIsLoggedIn]);
 
   const handleGoogle = async () => {
@@ -39,6 +34,7 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       setUserData(result.user);
       localStorage.setItem('userData', JSON.stringify(result.user));
+      navigate('/main')
       setIsLoggedIn(true);
     } catch (error) {
       alert(error.message);
@@ -47,8 +43,9 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      setErrorMessage(""); // Clear previous error message
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      setErrorMessage(""); 
+      const results = await signInWithEmailAndPassword(auth, data.email, data.password);
+      localStorage.setItem('userData', JSON.stringify(results.user));
       setIsLoggedIn(true);
       navigate('/main');
     } catch (error) {
@@ -111,6 +108,10 @@ const P1 = styled.p`
 
 const H1 = styled.h1`
   margin-bottom: 100px;
+  @media (max-width: 576px) {
+    align-items: center;
+    font-size: 30px;
+  }
 `;
 
 const Div = styled.div`
@@ -126,3 +127,4 @@ const ErrorMessage = styled.p`
   color: red;
   font-size: 12px;
 `;
+
