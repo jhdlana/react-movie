@@ -50,6 +50,7 @@ const Nav = () => {
 
     const handleClick = () =>{
         setShowInput((prev) => !(prev));
+        setInputValue("")
     }
 
     const handleLogout = () => {
@@ -70,9 +71,13 @@ const Nav = () => {
     }
     
     const handleMain = () => {
-        (window.location.href = '/main')
-        if(isLoggedIn === false) {
-            (window.location.href = '/')
+        if(isLoggedIn === true ) {
+            // (window.location.href = '/main')
+            navigate('/main')
+        }
+        else if(isLoggedIn === false) {
+            // (window.location.href = '/')
+            navigate('/')
         }
     }
     const handleMypage = () => {
@@ -239,6 +244,7 @@ const Img = styled.img`
     border-radius: 50%;
     width: 100%;
     height: 100%;
+    padding-top: 10px;
     @media (max-width: 768px) {
         padding-top : 10px;
     }

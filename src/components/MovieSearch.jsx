@@ -33,11 +33,23 @@ const MovieSearch = () => {
         try {
             const response = await Axois.get(`/search/multi?include_adult=false&query=${searchTerm}`)
             console.log(response)
-            setSearchResults(response.data.results)
+            // const results = respose.data.results
+                console.log(response.data.results)
+                const results = response.data.results
+                console.log(results)
+               const result = results.filter(info => 
+                 info.title
+               )
+               console.log(result)
+               setSearchResults(result)
+            
+            // setSearchResults(response.data.results)
         } catch(error) {
             console.log(error)
         }
     }
+
+    
 
     if(searchResults.length > 0 ) {
         return (
@@ -57,6 +69,7 @@ const MovieSearch = () => {
                                         alt='movie'
                                         className='movie__poster'
                                     />
+                                   <p className='movie-title'>{movie.title}</p>
                                 </div>
                             </div>
                         ) 

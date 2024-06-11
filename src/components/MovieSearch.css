@@ -38,4 +38,10 @@
     display: inline-block;
     padding-right: 0.5rem;
     padding-bottom: 7rem;
+    
+}
+
+.movie-title {
+    font-size: 1rem;
+    margin-top: 8px;
 }
